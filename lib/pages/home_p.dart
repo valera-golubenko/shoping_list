@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoping_list/pages/list_p.dart';
 
 class HomeP extends StatefulWidget {
   const HomeP({Key? key}) : super(key: key);
@@ -9,8 +10,8 @@ class HomeP extends StatefulWidget {
 
 class _HomePState extends State<HomeP> {
   String tempData = '';
-  final List shopingList = [];
-  final List dateList = [];
+  final Set shopingList = {};
+  final Set dateList = {};
   DateTime selectedDate = DateTime.now();
   @override
   void initState() {
@@ -20,8 +21,14 @@ class _HomePState extends State<HomeP> {
   _addDataButton() {
     setState(() {
       dateList.add(selectedDate);
-      print(shopingList);
     });
+  }
+
+  _routePageList() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return ListW(sale: shopingList);
+    }));
   }
 
   @override
@@ -35,18 +42,21 @@ class _HomePState extends State<HomeP> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: dateList.map((e) {
-          return InkWell(
-            onTap: () {},
-            child: Container(
-              color: Colors.white,
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  "${e.day}/${e.month}/${e.year}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey.shade700,
+          return Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: InkWell(
+              onTap: _routePageList,
+              child: Card(
+                color: Colors.white,
+                margin: const EdgeInsets.only(bottom: 10),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "${e.day}/${e.month}/${e.year}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey.shade700,
+                    ),
                   ),
                 ),
               ),
